@@ -1,14 +1,14 @@
 # Blueprint AWS accounts deployment using Terraform
 
 User management in AWS can be a hurdle when using multiple accounts, with API keys and password stored everywhere.
-Instead, this repository suggests a blueprint to centralize the user in an "IAM" account, and grant
+Instead, this repository provides a Terraformed blueprint to centralize the user in a single "IAM" account, and grant
 access from there to other accounts and resources.
 
 ![Blueprint](doc/blueprint.png)
 
 #### Root account
-the root account only welcomes very few users who can be granted
-* Admin access to the root account
+the root account only welcomes very few users. Using this module, they can be granted
+* Admin access to the root account. (TODO)
 * Admin access to all the other org account, via the *GlobalRootAdmins* user group
 * Admin access to given other accounts, via the dedicated *XxxRootAdmins* user groups
 
@@ -28,6 +28,7 @@ Resources are only being created in those accounts, offering a clear clusterisat
 and resources.
 
 ## Usage
+Deploy this module with a user in the root account or assuming a role in there.
 ```tf
 module "accounts" {
   source = "git://raphaeljoie/terraform-aws-accounts.git"
@@ -50,17 +51,17 @@ and
 terraform apply
 ```
 
-The first execution should end with a following error message
+### Troubleshooting "creating account"
 ```
 Error creating account: AWSOrganizationsNotInUseException: Your account is not a member of an organization.
 ```
-=> The email address of the master account must be verified.
-
-**[Unfortunately, Terraform doesn't provide a way to automate the creation of the `IamAdminAccessRole` in the managed
-accounts](#cross-account-terraform-loop-limitation)**. A second step must therefore be manually be initiated for each 
-account, using the second module provided
+**Solution:** The email address of the master account must be verified.
 
 ### Account population
+**[Unfortunately, Terraform doesn't provide a way to automate the creation of the `IamAdminAccessRole` in the managed
+accounts](#cross-account-terraform-loop-limitation)**. A second step must therefore be manually be initiated for each
+account, using the second module provided
+
 ```tf
 module "prod_account" {
   source = ""
