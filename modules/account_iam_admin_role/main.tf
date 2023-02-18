@@ -7,8 +7,14 @@ terraform {
   }
 }
 
+locals {
+  tags = merge({TerraformModule = "git::https://github.com/raphaeljoie/terraform-aws-accounts//modules/account_iam_admin_role"}, var.tags)
+}
+
 resource "aws_iam_role" "iam_admin_access_role" {
-  provider = "aws.account"
+  name = "IamAccountAdminAccessRole"
+
+  description = ""
 
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -22,11 +28,15 @@ resource "aws_iam_role" "iam_admin_access_role" {
       },
     ]
   })
+
+  tags = local.tags
+}
+
+data "aws_iam_policy" "builtin_admin_policy" {
+  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "iam_admin_access_role_policy" {
-  provider = "aws.account"
-
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-  role = aws_iam_role.iam_admin_access_role
+  policy_arn = data.aws_iam_policy.builtin_admin_policy.arn
+  role = aws_iam_role.iam_admin_access_role.name
 }
