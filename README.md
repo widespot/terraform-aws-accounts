@@ -31,25 +31,29 @@ and resources.
 Deploy this module with a user in the root account or assuming a role in there.
 ```tf
 module "accounts" {
-  source = "git://raphaeljoie/terraform-aws-accounts.git"
+  source = "git::https://github.com/widespot/terraform-aws-accounts.git"
 
-  accounts = [{
-    email = "aws.prod@domain.com"
-    name = "Prod"
-  }, {
-    email = "aws.dev@domain.com"
-    name = "Dev"
-  }]
+  accounts = {
+    Prod = {
+      email = "aws.prod@widespot.be"
+    },
+    Dev = {
+      email = "aws.dev@widespot.be"
+    }
+  }
 
-  iam_account_email = "aws.iam@domain.com"
+  iam_account_email = "aws.iam@widespot.be"
 
-  global_root_admin_users = ["raphael.joie"]
+  # the username of the current root user
+  global_root_admin_users = ["root"]
 }
 ```
 and 
 ```
 terraform apply
 ```
+If you get this error, just run `terraform apply` a second time
+> ⚠️ **ERROR** creating AWS Organizations Account: AWSOrganizationsNotInUseException: Your account is not a member of an organization.
 
 ### Troubleshooting "creating account"
 ```
