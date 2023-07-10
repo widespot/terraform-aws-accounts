@@ -41,7 +41,7 @@ resource "aws_iam_group_policy_attachment" "iam_root_admin_policy_global_attachm
 
 resource "aws_iam_group_membership" "global_root_admins" {
   group = aws_iam_group.global_root_admins_group.name
-  name = ""
+  name = "global_root_admins"
 
   users = var.global_root_admin_users
 }
