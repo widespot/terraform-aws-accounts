@@ -52,8 +52,6 @@ and
 ```
 terraform apply
 ```
-If you get this error, just run `terraform apply` a second time
-> ⚠️ **ERROR** creating AWS Organizations Account: AWSOrganizationsNotInUseException: Your account is not a member of an organization.
 
 ### Troubleshooting "creating account"
 ```

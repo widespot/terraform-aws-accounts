@@ -8,6 +8,8 @@ module "iam_account" {
 
   account_email = var.iam_account_email
   account_key = "Iam"
+
+  depends_on = [aws_organizations_organization.org]
 }
 
 module "accounts" {
@@ -17,6 +19,8 @@ module "accounts" {
 
   account_email = each.value.email
   account_key = each.key
+
+  depends_on = [aws_organizations_organization.org]
 }
 
 ## Create global root admin user group and users
