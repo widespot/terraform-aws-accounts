@@ -10,9 +10,3 @@ variable "iam_account_email" {
   type = string
   default = null
 }
-
-variable "global_root_admin_users" {
-  description = "Users to be included within the global"
-  type = list(string)
-  default = []
-}

@@ -43,9 +43,6 @@ module "accounts" {
   }
 
   iam_account_email = "aws.iam@widespot.be"
-
-  # the username of the current root user
-  global_root_admin_users = ["root"]
 }
 ```
 and 

@@ -43,9 +43,15 @@ resource "aws_iam_group_policy_attachment" "iam_root_admin_policy_global_attachm
   policy_arn = module.iam_account[0].root_admin_policy_arn
 }
 
+data "aws_caller_identity" "current" {}
+
+locals {
+  username = replace(data.aws_caller_identity.current.arn, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/", "")
+}
+
 resource "aws_iam_group_membership" "global_root_admins" {
   group = aws_iam_group.global_root_admins_group.name
   name = "global_root_admins"
 
-  users = var.global_root_admin_users
+  users = [local.username]
 }
