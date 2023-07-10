@@ -4,7 +4,7 @@ User management in AWS can be a hurdle when using multiple accounts, with API ke
 Instead, this repository provides a Terraformed blueprint to centralize the user in a single "IAM" account, and grant
 access from there to other accounts and resources.
 
-![Blueprint](doc/blueprint.png)
+![Blueprint](https://github.com/widespot/terraform-aws-accounts/blob/main/doc/blueprint.png?raw=true)
 
 #### Root account
 the root account only welcomes very few users. Using this module, they can be granted
